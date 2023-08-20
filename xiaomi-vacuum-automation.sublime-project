@@ -2,6 +2,10 @@
 	"folders":
 	[
 		{
+			"binary_file_patterns":
+			[
+				"dreame_vacuum/**"
+			],
 			"file_exclude_patterns":
 			[
 				"xiaomi-vacuum-automation.sublime-project"

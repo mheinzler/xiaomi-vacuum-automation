@@ -1,0 +1,3 @@
+[submodule "dreame-vacuum"]
+	path = dreame_vacuum
+	url = https://github.com/Tasshack/dreame-vacuum
