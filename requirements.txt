@@ -4,5 +4,6 @@ Pillow==10.0.0
 py_mini_racer==0.6.0
 pycryptodome==3.18.0
 python-miio==0.5.12
+PyYAML==6.0.1
 requests==2.31.0
 tzlocal==5.0.1
