@@ -4,6 +4,7 @@ import argparse
 import dreame
 import logging
 import mock
+import re
 import time
 import yaml
 
@@ -11,6 +12,9 @@ SLEEP_INTERVAL = 0.25
 
 # parse the arguments
 parser = argparse.ArgumentParser()
+parser.add_argument('rooms',
+                    help='rooms to clean (regular expression pattern)')
+
 parser.add_argument('-c', '--config', metavar='FILE',
                     default='config.yaml',
                     help='device configuration file (default: config.yaml)')
@@ -67,6 +71,23 @@ try:
         segments = status.segments
         logging.info('Rooms: %s',
                      [[id, seg.name] for id, seg in segments.items()])
+
+        # find the list of rooms that match the pattern
+        segments_to_clean = []
+        for id, seg in segments.items():
+            if re.search(args.rooms, seg.name):
+                segments_to_clean += [id]
+
+        if segments_to_clean:
+            # start cleaning the rooms
+            print('Cleaning rooms:',
+                  [segments[id].name for id in segments_to_clean])
+
+            device.clean_segment(
+                segments_to_clean, cleaning_times=None,
+                suction_level=None, water_volume=None)
+        else:
+            logging.error('No rooms matched the given pattern')
     else:
         logging.error('Timeout while waiting for map')
 finally:
