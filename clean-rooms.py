@@ -2,6 +2,7 @@
 
 import argparse
 import dreame
+import logging
 import mock
 import yaml
 
@@ -11,7 +12,20 @@ parser.add_argument('-c', '--config', metavar='FILE',
                     default='config.yaml',
                     help='device configuration file (default: config.yaml)')
 
+parser.add_argument('-v', '--verbose',
+                    default=logging.WARNING,
+                    dest='loglevel', action='store_const', const=logging.INFO,
+                    help='enable verbose output')
+parser.add_argument('-d', '--debug',
+                    dest='loglevel', action='store_const', const=logging.DEBUG,
+                    help='enable debug output')
+
 args = parser.parse_args()
+
+# configure logging
+logging.basicConfig(
+    level=args.loglevel,
+    format='%(asctime)s %(name)-13s %(levelname)-8s %(message)s')
 
 # create a device from the config file
 with open(args.config, 'r') as file:
