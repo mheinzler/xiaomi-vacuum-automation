@@ -1,11 +1,20 @@
 #! python3
 
+import argparse
 import dreame
 import mock
 import yaml
 
+# parse the arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--config', metavar='FILE',
+                    default='config.yaml',
+                    help='device configuration file (default: config.yaml)')
+
+args = parser.parse_args()
+
 # create a device from the config file
-with open('config.yaml', 'r') as file:
+with open(args.config, 'r') as file:
     config = yaml.safe_load(file)
 
 device = dreame.DreameVacuumDevice(**config)
